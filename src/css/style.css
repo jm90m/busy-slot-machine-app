@@ -79,6 +79,7 @@ input[type='checkbox'] {
   padding: 10px;
   display: flex;
   align-items: center;
+  text-align: center;
   justify-content: center;
 }
 
