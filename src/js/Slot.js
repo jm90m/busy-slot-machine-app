@@ -81,7 +81,7 @@ export default class Slot {
   onSpinStart() {
     this.spinButton.disabled = true;
 
-    console.log('SPIN START');
+    console.log('SPIN START!');
   }
 
   onSpinEnd() {
