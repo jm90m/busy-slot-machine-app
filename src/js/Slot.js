@@ -1,5 +1,14 @@
 import Reel from './Reel.js';
 import Symbol from './Symbol.js';
+import createClient from './busy-sdk/createClient';
+
+let client = null;
+
+try {
+  client = createClient(window.parent, ['http://localhost:3000']);
+} catch (e) {
+  console.log(e);
+}
 
 export default class Slot {
   constructor(domElement, config = {}) {
@@ -19,11 +28,13 @@ export default class Slot {
       ['death_star', 'death_star', 'death_star'],
       ['death_star', 'death_star', 'death_star'],
       ['death_star', 'death_star', 'death_star'],
-    ]
+    ];
 
     this.container = domElement;
 
-    this.reels = Array.from(this.container.getElementsByClassName('reel')).map((reelContainer, idx) => new Reel(reelContainer, idx, this.currentSymbols[idx]));
+    this.reels = Array.from(this.container.getElementsByClassName('reel')).map(
+      (reelContainer, idx) => new Reel(reelContainer, idx, this.currentSymbols[idx]),
+    );
 
     this.spinButton = document.getElementById('spin');
     this.spinButton.addEventListener('click', () => this.spin());
@@ -32,10 +43,22 @@ export default class Slot {
 
     if (config.inverted) {
       this.container.classList.add('inverted');
-    } 
+    }
+  }
+
+  handleRefreshClick() {
+    client
+      .call('get_rooms', [])
+      .then(rooms => {
+        document.getElementById('result-container').append(JSON.stringify(rooms));
+      })
+      .catch(err => {
+        document.getElementById('result-container').append('ERROR GETING ROOMS');
+      });
   }
 
   spin() {
+    this.handleRefreshClick();
     this.onSpinStart();
 
     this.currentSymbols = this.nextSymbols;
@@ -47,10 +70,12 @@ export default class Slot {
       [Symbol.random(), Symbol.random(), Symbol.random()],
     ];
 
-    return Promise.all(this.reels.map(reel => {
-      reel.renderSymbols(this.currentSymbols[reel.idx], this.nextSymbols[reel.idx]);
-      return reel.spin();
-    })).then(() => this.onSpinEnd());
+    return Promise.all(
+      this.reels.map(reel => {
+        reel.renderSymbols(this.currentSymbols[reel.idx], this.nextSymbols[reel.idx]);
+        return reel.spin();
+      }),
+    ).then(() => this.onSpinEnd());
   }
 
   onSpinStart() {
