@@ -40,7 +40,8 @@ export default class Slot {
       this.container.classList.add('inverted');
     }
 
-    setTimeout(this.handleIntro, 1000);
+    this.handleIntro = this.handleIntro.bind(this);
+
   }
 
   handleIntro() {
@@ -57,6 +58,7 @@ export default class Slot {
 
   spin() {
     this.onSpinStart();
+    this.handleIntro();
 
     this.currentSymbols = this.nextSymbols;
     this.nextSymbols = [
