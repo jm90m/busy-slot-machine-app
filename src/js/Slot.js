@@ -39,16 +39,18 @@ export default class Slot {
     if (config.inverted) {
       this.container.classList.add('inverted');
     }
+
+    this.handleIntro();
   }
 
-  handleRefreshClick() {
+  handleIntro() {
     client
-      .call(id, 'get_rooms', [])
-      .then(rooms => {
-        document.getElementById('result-container').append(JSON.stringify(rooms));
+      .call(id, 'get_current_user', [])
+      .then(user => {
+        document.getElementById('jp').innerHTML(user.displayName);
       })
       .catch(err => {
-        document.getElementById('result-container').append('ERROR GETING ROOMS');
+        document.getElementById('jp').append('Error getting user');
       });
     id += 1;
   }
