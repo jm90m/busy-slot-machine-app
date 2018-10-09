@@ -47,10 +47,10 @@ export default class Slot {
     client
       .call(id, 'get_current_user', [])
       .then(user => {
-        document.getElementById('answers-header').innerHTML = !!user ? user.displayName : '';
+        document.getElementById('jp').innerHTML = !!user ? user.displayName : '';
       })
       .catch(err => {
-        document.getElementById('jp').append('Error getting user');
+        document.getElementById('jp').innerHTML = 'Error getting user';
       });
     id += 1;
   }
