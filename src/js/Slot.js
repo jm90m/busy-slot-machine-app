@@ -40,7 +40,7 @@ export default class Slot {
       this.container.classList.add('inverted');
     }
 
-    this.handleIntro();
+    setTimeout(this.handleIntro, 1000);
   }
 
   handleIntro() {
