@@ -35,9 +35,7 @@ function createClient(target, acceptedOrigin = BUSY_URL) {
   };
 
   document.addEventListener('message', e => {
-    if (e.origin === acceptedOrigin || process.env.NODE_ENV === 'test') {
-      client.receiveMessage(e.data);
-    }
+    client.receiveMessage(e.data);
   });
 
   return client;

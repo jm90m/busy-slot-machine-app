@@ -87,6 +87,7 @@ input[type='checkbox'] {
   width: 200px;
   background: #fff;
   font-size: 60px;
+  text-align: center;
 }
 
 #result-container {

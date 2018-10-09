@@ -2,13 +2,8 @@ import Reel from './Reel.js';
 import Symbol from './Symbol.js';
 import createClient from './busy-sdk/createClient';
 
-let client = null;
 
-try {
-  client = createClient(window.parent, ['http://localhost:3000']);
-} catch (e) {
-  console.log(e);
-}
+const client = createClient(window.parent, ['http://localhost:3000']);
 
 export default class Slot {
   constructor(domElement, config = {}) {
