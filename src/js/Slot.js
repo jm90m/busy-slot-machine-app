@@ -56,7 +56,6 @@ export default class Slot {
   }
 
   spin() {
-    this.handleRefreshClick();
     this.onSpinStart();
 
     this.currentSymbols = this.nextSymbols;
