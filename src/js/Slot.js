@@ -2,8 +2,8 @@ import Reel from './Reel.js';
 import Symbol from './Symbol.js';
 import createClient from './busy-sdk/createClient';
 
-
 const client = createClient(window.parent, ['http://localhost:3000']);
+let id = 0;
 
 export default class Slot {
   constructor(domElement, config = {}) {
@@ -43,13 +43,14 @@ export default class Slot {
 
   handleRefreshClick() {
     client
-      .call('get_rooms', [])
+      .call(id, 'get_rooms', [])
       .then(rooms => {
         document.getElementById('result-container').append(JSON.stringify(rooms));
       })
       .catch(err => {
         document.getElementById('result-container').append('ERROR GETING ROOMS');
       });
+    id += 1;
   }
 
   spin() {
