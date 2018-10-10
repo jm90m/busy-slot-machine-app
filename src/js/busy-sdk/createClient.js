@@ -1,14 +1,17 @@
 const BUSY_URL = 'https://busy.org';
 
-function createClient(target, acceptedOrigin = BUSY_URL) {
+function createClient(target, acceptedOrigins = [BUSY_URL]) {
   const client = {
     target,
+    nextId: 1,
     resolvers: {},
     rejectors: {},
     postMessage: message => {
       if (target) target.postMessage(message, '*');
     },
-    call: (id, method, params) => {
+    call: (method, params) => {
+      const id = client.nextId++;
+
       client.postMessage(
         JSON.stringify({
           jsonrpc: '2.0',
@@ -34,7 +37,9 @@ function createClient(target, acceptedOrigin = BUSY_URL) {
     },
   };
 
-  document.addEventListener('message', e => {
+  window.addEventListener('message', e => {
+    if (acceptedOrigins.indexOf(e.origin) === -1) return;
+
     client.receiveMessage(e.data);
   });
 

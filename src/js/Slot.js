@@ -3,7 +3,6 @@ import Symbol from './Symbol.js';
 import createClient from './busy-sdk/createClient';
 
 const client = createClient(window.parent, ['http://localhost:3000']);
-let id = 0;
 
 export default class Slot {
   constructor(domElement, config = {}) {
@@ -41,19 +40,17 @@ export default class Slot {
     }
 
     this.handleIntro = this.handleIntro.bind(this);
-
   }
 
   handleIntro() {
     client
-      .call(id, 'get_current_user', [])
+      .call('get_current_user', [])
       .then(user => {
         document.getElementById('jp').innerHTML = !!user ? user.displayName : '';
       })
       .catch(err => {
         document.getElementById('jp').innerHTML = 'Error getting user';
       });
-    id += 1;
   }
 
   spin() {
