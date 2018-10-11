@@ -38,7 +38,15 @@ function createClient(target, acceptedOrigins = [BUSY_URL]) {
   };
 
   document.addEventListener('message', e => {
-    document.getElementById('result-container').innerHTML = `test-${e.source}`;
+    // document.getElementById('result-container').innerHTML = `test-${e.source}`;
+    const message = JSON.parse(e.data);
+    const hasPairCode = message.pairCode === window.BUSY_SDK_PAIR_CODE;
+
+    if (hasPairCode) {
+      client.receiveMessage(e.data);
+      return;
+    }
+
     if (acceptedOrigins.indexOf(e.origin) === -1) return;
 
     client.receiveMessage(e.data);
