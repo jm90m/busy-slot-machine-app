@@ -38,7 +38,7 @@ function createClient(target, acceptedOrigins = [BUSY_URL]) {
   };
 
   document.addEventListener('message', e => {
-    document.getElementById('result-container').innerHTML = `test-${e.origin}`;
+    document.getElementById('result-container').innerHTML = `${JSON.stringify(e)}`;
     if (acceptedOrigins.indexOf(e.origin) === -1) return;
 
     client.receiveMessage(e.data);
