@@ -38,7 +38,8 @@ function createClient(target, acceptedOrigins = [BUSY_URL]) {
   };
 
   document.addEventListener('message', e => {
-    // if (acceptedOrigins.indexOf(e.origin) === -1) return;
+    document.getElementById('result-container').innerHTML = e.origin;
+    if (acceptedOrigins.indexOf(e.origin) === -1) return;
 
     client.receiveMessage(e.data);
   });
