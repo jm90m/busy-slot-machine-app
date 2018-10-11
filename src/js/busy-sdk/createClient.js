@@ -39,11 +39,11 @@ function createClient(target, acceptedOrigins = [BUSY_URL]) {
 
   document.addEventListener('message', e => {
     const message = JSON.parse(e.data);
-    const hasPairCode = message.pairCode === document.__BUSY_SDK_PAIR_CODE;
+    const hasPairCode = message.pairCode === window.__BUSY_SDK_PAIR_CODE;
 
     document.getElementById('result-container').innerHTML = `test-${
       message.pairCode
-    }-${JSON.stringify(document.__BUSY_SDK_PAIR_CODE)}`;
+    }-${JSON.stringify(window.__BUSY_SDK_PAIR_CODE)}`;
 
     if (hasPairCode) {
       client.receiveMessage(e.data);
